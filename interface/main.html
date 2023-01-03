@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="EESoc Weekly Newsletter">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Paul Vangerow">
+        <meta name="name=x-apple-disable-message-reformatting">
+
+        <title>EESoc Email Generator</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        
+        <style>
+            .primary {
+                height : 100vh;
+                width : 100%;
+                padding: 0px;
+                margin: 0px;
+                background-color: #eeeeee;
+            }
+
+            .banner {
+                width: 100%;
+                height: 60px;
+                background-color: #b3b3b3;
+            }
+
+            .seperator {
+                float: left;
+                height: 100%;
+                width: 1%;
+            }
+
+            p.banner_text {
+                line-height: 15px;
+                font-size: 20px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            img {
+                height: inherit;
+                width: auto;
+            }
+
+            .selector {
+                float:left;
+                height:40px;
+                width:200px;
+                background-color: #eeeeee;
+                margin-top:10px;
+                border-radius: 20px; 
+                overflow: hidden;
+            }
+
+            .button_window {
+                float:left;
+                height:40px;
+                width:130px;
+                margin-top:10px;
+                overflow: hidden;
+            }
+
+            .sel_button {
+                margin: 3px;
+                float: left;
+                height: 34px;
+                width: 94px;
+                background-color: inherit;
+                font-size: large;
+                font-weight: bold;
+                font-family: 'Courier New', Courier, monospace;
+                cursor: pointer;
+                border: none;
+                border-radius: 17px;
+                color: #999999;
+            }
+
+            .util_button {
+                margin: 3px;
+                float: left;
+                height: 34px;
+                width: 120px;
+                background-color: rgb(6, 63, 187);
+                font-size: large;
+                font-weight: bold;
+                font-family: 'Courier New', Courier, monospace;
+                cursor: pointer;
+                border: 1px solid #777777;
+                border-radius: 17px;
+                color: white;
+            }
+
+            .sel_button.active{
+                background-color: rgb(6, 63, 187);
+                border: 1px solid #777777;
+                color: white;
+            }
+
+            .editor_window {
+                height: calc(100% - 60px);
+                width: 100%;
+                background-color: inherit;
+            }
+
+            .editor {
+                display: none;
+                height:100%;
+                width:100%;
+                overflow: scroll;
+                background: inherit;
+            }
+
+            .editor.active {
+                display: block;
+            }
+
+            .text_display {
+                float: left;
+                height: 100%;
+                width: 49%;
+                margin-left: 0.25%;
+                margin-right: 0.25%;
+                background-color: white;
+                overflow: scroll;
+            }
+
+
+        </style>
+
+        <!-- Page Scripts -->
+        <script>
+
+            window.addEventListener("beforeunload", closeApp );
+
+            // Set a same-site cookie for first-party contexts
+            document.cookie = 'cookie1=value1; SameSite=Lax';
+            // Set a cross-site cookie for third-party contexts
+            document.cookie = 'cookie2=value2; SameSite=None; Secure';
+
+            function loadPreview(){
+                fetch('/fetch/gen.html')
+                .then(response=> response.text())
+                .then(text=> document.getElementById("preview").innerHTML = text);
+            }
+
+            function init_Editor(){
+                fetch('/fetch/gen.yaml')
+                .then(response=> response.text())
+                .then(text=> document.getElementById("code_text").innerText = text);
+            }
+
+            function changeMode(evt, type){
+                var bts = document.getElementsByClassName("sel_button");
+                for (var i = 0; i < bts.length; i++){
+                    bts[i].className = bts[i].className.replace(" active", "");
+                }
+
+                var tabs = document.getElementsByClassName("editor");
+                for(var i = 0; i < tabs.length; i++){
+                    tabs[i].className = tabs[i].className.replace(" active", "")
+                }
+
+                document.getElementById(type).className += " active";
+                evt.currentTarget.className += " active";
+            }
+
+            function generateEmail(){
+                const response = confirm("Are you sure you want to send the email?");
+                if (response){
+                    fetch('send', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then( (response) => console.log(response) )
+                    .then( (data) => console.log(data) )
+                    .catch( (error) => console.log(error) )
+                }
+            }
+
+            function closeApp() {
+                navigator.sendBeacon('close'); // Send a last minute HTTP Request to inform the server that the page has been closed.
+            }
+            
+            function updatePars() {
+                fetch('update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: document.getElementById("code_text").innerText
+                })
+                .then( (response) => {
+                    loadPreview();
+                } )
+            }
+
+            function debounce(callback, wait) {
+                let timeout;
+                return (...args) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function () { callback.apply(this, args); }, wait);
+                };
+            }
+
+        </script>
+
+    </head>
+
+    <!-- Website Body (Editor) -->
+
+    <body style="padding:0px; margin:0px">
+        <div class="primary">
+            <div class="banner">
+                <div style="float:left; height:100%; width:3%;">
+                    &nbsp;
+                </div>
+                <div style="float:left; height:100%; width:6%;">
+                    &nbsp;
+                </div>
+                <div class="selector">
+                    <button class="sel_button active" type="button" onclick="changeMode(event, 'code')"> Code </button>
+                    <button class="sel_button" type="button" onclick="changeMode(event, 'visual')"> Visual </button>
+                </div>
+                <div style="float:left; height:100%; width:60%;">
+                    &nbsp;
+                </div>
+                <div class="button_window">
+                    <button class="util_button" type="button" onclick="generateEmail()"> Generate </button>
+                </div>
+            </div>
+            <div class="editor_window">
+                <div id="code" class="editor active">
+                    <div id="editor" class="text_display" contenteditable="true">
+                        <pre id="code_text" style="font-family: 'Courier New', Courier, monospace; font-size: small;">
+                        </pre>
+                        <script>
+                            var typingTimer;
+                            var done_typing = 1000;
+
+                            document.getElementById("editor").addEventListener('keyup', debounce( () => {
+                                updatePars();
+                            }, done_typing));
+
+                            init_Editor();
+                        </script>
+                    </div>
+                    <div id="preview" class="text_display"></div>
+                    <script>
+                        loadPreview();
+                    </script>
+                </div> 
+                <div id="visual" class="editor">
+                    <p> This is the Visual Editor! </p>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

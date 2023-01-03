@@ -1,0 +1,119 @@
+subject: "Newsletter Test"
+body:
+  header:
+    title: "Weekly Newslettersssss"
+    date: "Tuesday 7th June"
+    points: 
+      - "Nepsum Summer Internship Opportunity"
+      - "Recent ABB Talk (Further Details)"
+  sections: 
+    - type: Marker
+      text: "Nepsum summer Internship Opportunity dsoes this stuff we hopess"
+    - type: Body
+      contents:
+        - type: image
+          width: "100%"
+          title: "Nepsum"
+          src: https://mcusercontent.com/ecf7093cf7d348d774c4ab281/images/2f514238-56d6-75c3-949a-36b5a191da1e.png
+        - type: spacer
+          height: "20px"
+        - type: description
+          align: left
+          text: "Engineering Intern at Nepsum Energy (renewables energy company) 
+                to develop initial prototype of large scale floating offshore wind 
+                platform."
+        - type: spacer
+          height: "20px"
+        - type: seperator
+        - type: spacer
+          height: "20px"
+        - type: description
+          align: left
+          text: "<b>Responsibilities:</b>"
+        - type: list
+          elements:
+            - "Design of hardware prototype of platform: structural design, anchoring 
+              research & design, material selection."
+            - "Power production simulations, thrust vector analysis, wave stability 
+              simulations."
+            - "Market analysis of current offshore wind industry, suppliers and economic 
+              analysis."
+        - type: description
+          align: left
+          text: "<b>Timeframe:</b> <br> July - August: part time work (10-20hrs weekly)"
+        - type: spacer
+          height: "20px"
+        - type: description
+          align: left
+          text: "<b>Location:</b> <br> Mixed mode - preferably candidates available in London"
+        - type: spacer
+          height: "20px"
+        - type: description
+          align: left
+          text: "<b>Required experience:</b> <br> Engineering/STEM background, coding skills & teamwork"
+        - type: spacer
+          height: "20px"
+        - type: seperator
+        - type: spacer
+          height: "20px"
+        - type: description
+          align: center
+          text: "<b>How to Apply:</b> <br> If interested email CV to os120@ic.ac.uk <br> Applications close <b>Friday 10th June</b>"
+    - type: Marker
+      text: "ABB Careers Talk (24th May) - Further Details"
+    - type: Body
+      contents:
+        - type: spacer
+          height: "20px"
+        - type: image
+          width: "50%"
+          title: ABB
+          src: https://mcusercontent.com/ecf7093cf7d348d774c4ab281/images/29d01217-f516-d354-1c41-a96ebbcb4a84.jpeg
+        - type: spacer
+          height: "20px"
+        - type: description
+          text: "For those who attended the ABB talk, the speakers' emails and the link our careers page are as below:"
+        - type: spacer
+          height: "20px"
+        - type: list
+          elements:
+            - "sam.harrasi@gb.abb.com"
+            - "melissa.hartmann-ugaz@gb.abb.com"
+            - "https://careers.abb/global/en/home"
+        - type: spacer
+          height: "10px"
+        - type: description
+          text: "Check it out for opportunities!"
+        - type: spacer
+          height: "20px"
+    - type: Marker
+      text: "Test Event!"
+    - type: Body
+      contents:
+        - type: spacer
+          height: "30px"
+        - type: event
+          date_text: "4th Ocdtober 2022"
+          time_text: "12:00-15:00"
+          location: "Exhibition Rd, South Kensington, London SW7 2BX, United Kingdom"
+          location_link: "https://goo.gl/maps/m4ECeCYUwYBHx1k29"
+        - type: spacer
+          height: "30px"
+        - type: button
+          text: Add to Calendar
+          calendar: events
+          subject: "Test!"
+          body: "This is a test event!"
+          start: "2022-10-04T13:00:00"
+          end: "2022-10-04T15:00:00"
+          location: "Exhibition Rd, South Kensington, London SW7 2BX, United Kingdom"
+          url: ""
+        - type: spacer
+          height: "30px"
+        - type: button
+          text: Google
+          url: https://google.com
+
+importance: "high"
+recipients: # List of all BCCs
+  - pjv20@ic.ac.uk
